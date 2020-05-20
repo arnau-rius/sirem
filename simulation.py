@@ -1,10 +1,10 @@
-""" Simulation of online news consumption including recommendations.
+""" Simulation of online music consumption including recommendations.
 
 A simulation framework  for the visualization and analysis of the effects of different recommenders systems. 
 This simulation draws mainly on the work of Fleder and Hosanagar (2017). To account for the specificities 
-of news consumption, it includes both users preferences and editorial priming as they interact in a 
-news-webpage context. The simulation models two main components: users (preferences and behavior) 
-and items (article content, publishing habits). Users interact with items and are recommended items
+of music consumption, it includes both users preferences and content provider priming as they interact in a 
+music-webpage context. The simulation models two main components: users (preferences and behavior) 
+and items (music content). Users interact with items and are recommended items
 based on their interaction.
 
 Example:
@@ -123,9 +123,7 @@ class Users(object):
     """ The class for modeling the user preferences (users) and user behavior.
 
     The users object can be passed from simulation to simulation, allowing for
-    different recommendation algorithms to be applied on. The default attributes
-    correspond to findings reports on online news behavior (mostly Mitchell et 
-    al 2017,'How Americans encounter, recall and act upon digital news').
+    different recommendation algorithms to be applied on.
 
     Todo:
             * Allow export of the data for analysis.
@@ -305,9 +303,7 @@ class Items(object):
     """ The class for modeling the items' content (items) and prominence.
 
     The items object can be passed from simulation to simulation, allowing for
-    different recommendation algorithms to be applied on. The default attributes
-    correspond to findings reports on online news behavior (mostly Mitchell et 
-    al 2017,'How Americans encounter, recall and act upon digital news').
+    different recommendation algorithms to be applied on.
 
     Todo:
             * Allow export of the data for analysis.
@@ -325,6 +321,7 @@ class Items(object):
         self.percentageOfActiveItems = False
 
         # Topics, frequency weights and prominence weights. We use topics instead of "classes" here.
+        # TODO: change topics
         self.topics = ["entertainment", "business",
                        "politics", "sport", "tech"]
         self.topicsProminence = []  # [0.05,0.07,0.03,0.85,0.01]
