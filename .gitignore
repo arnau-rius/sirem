@@ -1,2 +1,10 @@
 __pycache__/*
 *output*
+bin*
+lib*
+include*
+.Python
+venv
+.DS_Store
+test.py
+.vscode*

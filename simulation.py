@@ -12,8 +12,8 @@ Example:
 	$ python3 simulation.py 
 
 """
-
 from __future__ import division
+import csv
 from matplotlib.figure import Figure
 import numpy as np
 from scipy import spatial
@@ -54,6 +54,7 @@ if is_pyqt5():
 else:
     from matplotlib.backends.backend_qt4agg import (
         FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
+
 
 __author__ = 'Dimitrios  Bountouridis'
 
@@ -355,17 +356,32 @@ class Items(object):
 
         # Apply GMM on items/articles from the BBC data
         R, S = [5, 1, 6, 7], [5, 2, 28, 28]
-        r = int(random.random()*4)
-        (X, labels, topicClasses) = pickle.load(
-            open('BBC data/t-SNE-projection'+str(R[r])+'.pkl', 'rb'))
-        gmm = GaussianMixture(n_components=5, random_state=S[r]).fit(X)
 
+        r = int(random.random()*4)
+        # (X, labels, topicClasses) = pickle.load(
+        #     open('BBC data/t-SNE-projection'+str(R[r])+'.pkl', 'rb'))
+
+        X = []
+        with open("acusticBrainz/dataset_tsne.tsv") as tsvfile:
+            tsvreader = csv.reader(tsvfile, delimiter="\t")
+            for line in tsvreader:
+                X.append(line[:2])
+
+        gmm = GaussianMixture(n_components=5, random_state=S[r]).fit(X)
+        print('gmm')
+        print(gmm)
         # Normalize topic weights to sum into 1 (CBF)
         self.topicsFrequency = [np.round(
             i, decimals=1) for i in self.topicsFrequency/np.sum(self.topicsFrequency)]
+        print('topicsFrequency')
+        print(self.topicsFrequency)
 
         # Generate items/articles from the BBC data projection
         samples_, classes_ = gmm.sample(self.totalNumberOfItems*10)
+        print('samples')
+        print(samples_)
+        print('classes')
+        print(classes_)
         for c, category in enumerate(self.topics):
             selection = samples_[np.where(classes_ == c)][:int(
                 self.topicsFrequency[c]*self.totalNumberOfItems)]
@@ -724,43 +740,43 @@ class SimulationGUI(QDialog):
         # self.topMiddleGroupBox.heightForWidth()
 
         self.sliderEnt = QSlider(Qt.Horizontal, self.topMiddleGroupBox)
-        sliderEntLabel = QLabel("&Entertainment:")
+        sliderEntLabel = QLabel("&Alternative Rock:")
         sliderEntLabel.setBuddy(self.sliderEnt)
 
         self.sliderBus = QSlider(Qt.Horizontal, self.topMiddleGroupBox)
-        sliderBusLabel = QLabel("&Business:")
+        sliderBusLabel = QLabel("&Classical:")
         sliderBusLabel.setBuddy(self.sliderBus)
 
         self.sliderPol = QSlider(Qt.Horizontal, self.topMiddleGroupBox)
-        sliderPolLabel = QLabel("&Politics:")
+        sliderPolLabel = QLabel("&Jazz:")
         sliderPolLabel.setBuddy(self.sliderPol)
 
         self.sliderSpo = QSlider(Qt.Horizontal, self.topMiddleGroupBox)
-        sliderSpoLabel = QLabel("&Sports:")
+        sliderSpoLabel = QLabel("&Dance & Electronic:")
         sliderSpoLabel.setBuddy(self.sliderSpo)
 
         self.sliderTec = QSlider(Qt.Horizontal, self.topMiddleGroupBox)
-        sliderTecLabel = QLabel("&Tech:")
+        sliderTecLabel = QLabel("&Rap & Hip-Hop:")
         sliderTecLabel.setBuddy(self.sliderTec)
 
         self.sliderPromEnt = QSlider(Qt.Horizontal, self.topMiddleGroupBox)
-        sliderPromEntLabel = QLabel("&Entertainment:")
+        sliderPromEntLabel = QLabel("&Alternative Rock:")
         sliderPromEntLabel.setBuddy(self.sliderPromEnt)
 
         self.sliderPromBus = QSlider(Qt.Horizontal, self.topMiddleGroupBox)
-        sliderPromBusLabel = QLabel("&Business:")
+        sliderPromBusLabel = QLabel("&Classical:")
         sliderPromBusLabel.setBuddy(self.sliderPromBus)
 
         self.sliderPromPol = QSlider(Qt.Horizontal, self.topMiddleGroupBox)
-        sliderPromPolLabel = QLabel("&Politics:")
+        sliderPromPolLabel = QLabel("&Jazz:")
         sliderPromPolLabel.setBuddy(self.sliderPromPol)
 
         self.sliderPromSpo = QSlider(Qt.Horizontal, self.topMiddleGroupBox)
-        sliderPromSpoLabel = QLabel("&Sports:")
+        sliderPromSpoLabel = QLabel("&Dance & Electronic:")
         sliderPromSpoLabel.setBuddy(self.sliderPromSpo)
 
         self.sliderPromTec = QSlider(Qt.Horizontal, self.topMiddleGroupBox)
-        sliderPromTecLabel = QLabel("&Tech:")
+        sliderPromTecLabel = QLabel("&Rap & Hip-Hop:")
         sliderPromTecLabel.setBuddy(self.sliderPromTec)
 
         # Set values
