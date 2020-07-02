@@ -362,7 +362,7 @@ class Items(object):
         #     open('BBC data/t-SNE-projection'+str(R[r])+'.pkl', 'rb'))
 
         X = []
-        with open("acusticBrainz/dataset_tsne.tsv") as tsvfile:
+        with open("datasets/dataset_tsne.tsv") as tsvfile:
             tsvreader = csv.reader(tsvfile, delimiter="\t")
             for line in tsvreader:
                 X.append(line[:2])
@@ -932,7 +932,7 @@ class SimulationGUI(QDialog):
                 "Unexpectedness diversity (Expected Profile Distance)", **axis_font)
 
             self._dynamic_ax3.set_title(
-                "The overall distribution of read articles by topic", **axis_font)
+                "The overall distribution of listened songs by genre", **axis_font)
 
             # Parse data
             print(self.algorithms)
